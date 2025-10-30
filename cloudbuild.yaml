@@ -1,5 +1,10 @@
 steps:
-  # Step 1: Access the Gemini API Key from Secret Manager
+  # Step 1: Install npm dependencies using a Node.js builder image
+  - name: 'gcr.io/cloud-builders/npm'
+    id: 'npm-install'
+    args: ['install']
+
+  # Step 2: Access the Gemini API Key from Secret Manager
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'get-api-key'
     entrypoint: 'bash'
@@ -7,8 +12,7 @@ steps:
       - '-c'
       - 'gcloud secrets versions access latest --secret=gemini-api-key > /workspace/api_key.txt'
 
-  # Step 2: Replace the placeholder in the TypeScript file with the actual API key
-  # This uses sed to find and replace the placeholder %%GEMINI_API_KEY%%
+  # Step 3: Replace the placeholder in the source file before building
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'inject-api-key'
     entrypoint: 'bash'
@@ -17,27 +21,31 @@ steps:
       - |
         # Use a different delimiter for sed to avoid issues with special characters in the key
         sed -i "s|%%GEMINI_API_KEY%%|$(cat /workspace/api_key.txt)|g" services/geminiService.ts
+    waitFor: ['get-api-key']
 
-  # Step 3: Deploy the application files to the Cloud Storage bucket
-  # The -d flag deletes files in the bucket that are not present in the source
-  # The -r flag makes the sync recursive
+  # Step 4: Build the production application. This creates the './dist' directory.
+  - name: 'gcr.io/cloud-builders/npm'
+    id: 'npm-build'
+    args: ['run', 'build']
+    waitFor: ['npm-install', 'inject-api-key']
+
+  # Step 5: Deploy the built application files from the 'dist' folder to the bucket
   - name: 'gcr.io/cloud-builders/gsutil'
     id: 'deploy-to-bucket'
-    args: ['-m', 'rsync', '-d', '-r', '.', 'gs://italchimici_intranetportal']
+    args: ['-m', 'rsync', '-d', '-r', './dist', 'gs://italchimici_intranetportal']
+    waitFor: ['npm-build']
 
-  # Step 4: Configure the bucket to serve a static website
-  # Sets index.html as the main page and a fallback error page.
+  # Step 6: Configure the bucket to serve a static website
   - name: 'gcr.io/cloud-builders/gsutil'
     id: 'configure-website'
     args: ['web', 'set', '-m', 'index.html', '-e', 'index.html', 'gs://italchimici_intranetportal']
+    waitFor: ['deploy-to-bucket']
 
-  # Step 5: Make the bucket contents publicly readable
-  # This is necessary for a public static website. For a real intranet,
-  # consider using Identity-Aware Proxy (IAP) for access control.
+  # Step 7: Make the bucket contents publicly readable for website hosting
   - name: 'gcr.io/cloud-builders/gsutil'
     id: 'set-public-access'
     args: ['iam', 'ch', 'allUsers:objectViewer', 'gs://italchimici_intranetportal']
+    waitFor: ['deploy-to-bucket']
 
 options:
-  # Set the logging mode for the build
   logging: CLOUD_LOGGING_ONLY

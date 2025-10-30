@@ -19,8 +19,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-2xl shadow-lg text-center">
         <div>
            <h1 className="text-3xl font-bold text-slate-800">
-            Italchimici
-            <span className="text-slate-600">Portal</span>
+            My.<span className="font-semibold">Italchimici</span>
           </h1>
           <p className="mt-2 text-slate-600">Accedi per visualizzare la tua dashboard aziendale.</p>
         </div>

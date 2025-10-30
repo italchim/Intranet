@@ -3,18 +3,18 @@ import type { User, CalendarEvent, Email, Task, GoogleFile, ProcedureDoc, ForumP
 export const MOCK_USER: User = {
   name: 'Mario Rossi',
   email: 'mario.rossi@italchimici.it',
-  avatarUrl: 'https://picsum.photos/seed/maro/100/100',
+  avatarUrl: 'https://i.pravatar.cc/150?u=mario.rossi',
 };
 
 export const MOCK_EMPLOYEES: User[] = [
     MOCK_USER,
-    { name: 'Laura Bianchi', email: 'laura.bianchi@italchimici.it', avatarUrl: 'https://picsum.photos/seed/labi/100/100' },
-    { name: 'Giovanni Verdi', email: 'giovanni.verdi@italchimici.it', avatarUrl: 'https://picsum.photos/seed/give/100/100' },
-    { name: 'Giulia Neri', email: 'giulia.neri@italchimici.it', avatarUrl: 'https://picsum.photos/seed/gner/100/100' },
-    { name: 'Marco Esposito', email: 'marco.esposito@italchimici.it', avatarUrl: 'https://picsum.photos/seed/maes/100/100' },
-    { name: 'Sara Romano', email: 'sara.romano@italchimici.it', avatarUrl: 'https://picsum.photos/seed/saro/100/100' },
-    { name: 'Alessandro Russo', email: 'alessandro.russo@italchimici.it', avatarUrl: 'https://picsum.photos/seed/alru/100/100' },
-    { name: 'Francesca Costa', email: 'francesca.costa@italchimici.it', avatarUrl: 'https://picsum.photos/seed/frco/100/100' },
+    { name: 'Laura Bianchi', email: 'laura.bianchi@italchimici.it', avatarUrl: 'https://i.pravatar.cc/150?u=laura.bianchi' },
+    { name: 'Giovanni Verdi', email: 'giovanni.verdi@italchimici.it', avatarUrl: 'https://i.pravatar.cc/150?u=giovanni.verdi' },
+    { name: 'Giulia Neri', email: 'giulia.neri@italchimici.it', avatarUrl: 'https://i.pravatar.cc/150?u=giulia.neri' },
+    { name: 'Marco Esposito', email: 'marco.esposito@italchimici.it', avatarUrl: 'https://i.pravatar.cc/150?u=marco.esposito' },
+    { name: 'Sara Romano', email: 'sara.romano@italchimici.it', avatarUrl: 'https://i.pravatar.cc/150?u=sara.romano' },
+    { name: 'Alessandro Russo', email: 'alessandro.russo@italchimici.it', avatarUrl: 'https://i.pravatar.cc/150?u=alessandro.russo' },
+    { name: 'Francesca Costa', email: 'francesca.costa@italchimici.it', avatarUrl: 'https://i.pravatar.cc/150?u=francesca.costa' },
 ];
 
 
@@ -105,7 +105,7 @@ export const MOCK_FORUM_POSTS: ForumPost[] = [
   {
     id: '1',
     title: 'Nuova macchina del caffè nell\'area relax!',
-    author: { name: 'Giulia Neri', email: 'giulia.neri@italchimici.it', avatarUrl: 'https://picsum.photos/seed/gner/100/100' },
+    author: { name: 'Giulia Neri', email: 'giulia.neri@italchimici.it', avatarUrl: 'https://i.pravatar.cc/150?u=giulia.neri' },
     content: 'Volevo solo far sapere a tutti che l\'IT ha installato una nuova fantastica macchina del caffè al secondo piano. Fa un ottimo espresso!',
     timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
     comments: [
@@ -119,7 +119,7 @@ export const MOCK_FORUM_POSTS: ForumPost[] = [
     content: 'Sto riscontrando problemi nell\'inviare le mie spese con il nuovo portale. Qualcuno della finanza può aiutarmi? Ricevo un errore "Centro di Costo non valido".',
     timestamp: new Date(Date.now() - 25 * 60 * 60 * 1000).toISOString(),
     comments: [
-       { id: 'c2', author: { name: 'Team Finanza', email: 'finance@italchimici.it', avatarUrl: 'https://picsum.photos/seed/fite/100/100' }, content: 'Ciao Mario, assicurati di utilizzare i nuovi codici dei centri di costo distribuiti la scorsa settimana. Te li invierò direttamente via email.', timestamp: new Date(Date.now() - 22 * 60 * 60 * 1000).toISOString() },
+       { id: 'c2', author: { name: 'Team Finanza', email: 'finance@italchimici.it', avatarUrl: 'https://i.pravatar.cc/150?u=finance' }, content: 'Ciao Mario, assicurati di utilizzare i nuovi codici dei centri di costo distribuiti la scorsa settimana. Te li invierò direttamente via email.', timestamp: new Date(Date.now() - 22 * 60 * 60 * 1000).toISOString() },
        { id: 'c3', author: MOCK_USER, content: 'Grazie! Ha funzionato.', timestamp: new Date(Date.now() - 15 * 60 * 60 * 1000).toISOString() }
     ],
   }

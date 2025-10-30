@@ -212,7 +212,6 @@ export const HolidaysPage: React.FC = () => {
                                 type="datetime-local"
                                 id="end-date"
                                 value={endDate}
-                                onChange={e => setEndDate(e.target.value)}
                                 min={startDate}
                                 required
                                 className="mt-1 block w-full p-2 border border-slate-300 rounded-lg shadow-sm focus:ring-slate-500 focus:border-slate-500"

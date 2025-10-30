@@ -21,10 +21,22 @@ steps:
   # Step 3: Deploy the application files to the Cloud Storage bucket
   # The -d flag deletes files in the bucket that are not present in the source
   # The -r flag makes the sync recursive
-  # Replace BUCKET_NAME with your actual bucket name (e.g., gs://portal-italchimici-prod)
   - name: 'gcr.io/cloud-builders/gsutil'
     id: 'deploy-to-bucket'
-    args: ['-m', 'rsync', '-d', '-r', '.', 'gs://BUCKET_NAME']
+    args: ['-m', 'rsync', '-d', '-r', '.', 'gs://italchimici_intranetportal']
+
+  # Step 4: Configure the bucket to serve a static website
+  # Sets index.html as the main page and a fallback error page.
+  - name: 'gcr.io/cloud-builders/gsutil'
+    id: 'configure-website'
+    args: ['web', 'set', '-m', 'index.html', '-e', 'index.html', 'gs://italchimici_intranetportal']
+
+  # Step 5: Make the bucket contents publicly readable
+  # This is necessary for a public static website. For a real intranet,
+  # consider using Identity-Aware Proxy (IAP) for access control.
+  - name: 'gcr.io/cloud-builders/gsutil'
+    id: 'set-public-access'
+    args: ['iam', 'ch', 'allUsers:objectViewer', 'gs://italchimici_intranetportal']
 
 options:
   # Set the logging mode for the build

@@ -30,9 +30,10 @@ steps:
     waitFor: ['npm-install', 'inject-api-key']
 
   # Step 5: Deploy the built application files from the 'dist' folder to the bucket
+  # The trailing slash on './dist/' is critical to copy the contents, not the directory itself.
   - name: 'gcr.io/cloud-builders/gsutil'
     id: 'deploy-to-bucket'
-    args: ['-m', 'rsync', '-d', '-r', './dist', 'gs://italchimici_intranetportal']
+    args: ['-m', 'rsync', '-d', '-r', './dist/', 'gs://italchimici_intranetportal']
     waitFor: ['npm-build']
 
   # Step 6: Configure the bucket to serve a static website
